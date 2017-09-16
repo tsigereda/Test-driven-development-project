@@ -43,8 +43,8 @@ $(function () {
 
         //check if shows up when clicked
         it('menu showes/hides when clicked', function () {
-            
-           $('.menu-icon-link').click();
+
+            $('.menu-icon-link').click();
             expect(body.hasClass('menu-hidden')).toBe(false);
 
             $('.menu-icon-link').click();
@@ -53,15 +53,62 @@ $(function () {
 
     });
 
-  
-    /* TODO: Write a new test suite named "Initial Entries" */
+    describe('Initial Entries', function () {
 
-    /* TODO: Write a test that ensures when the loadFeed
-     * function is called and completes its work, there is at least
-     * a single .entry element within the .feed container.
-     * Remember, loadFeed() is asynchronous so this test will require
-     * the use of Jasmine's beforeEach and asynchronous done() function.
-     */
+        var container = $('.feed');
+
+        beforeEach(function (done) {
+            loadFeed(0, function () {
+                done();
+            });
+        });
+
+        it('load function does its work', function (done) {
+
+            var entryElements = container.find('.entry');
+            expect(entryElements).toBeDefined();
+            expect(entryElements.length).not.toBe(0);
+            done();
+        });
+
+
+    });
+
+    describe('New feed selection works', function () {
+
+        var initialFirstEntry = '';
+        var changedFirstEntry = '';
+
+        beforeEach(function (done) {
+            loadFeed(0, function () {
+                
+                initialFirstEntry = $('.entry').first().text();
+
+            });
+
+            loadFeed(1, function () {
+                changedFirstEntry = $('.entry').first().text();
+                done();
+            });
+        });
+
+
+
+        it('loadfeed updates content works', function (done) {
+
+            expect(initialFirstEntry).toBeDefined();
+            expect(initialFirstEntry).not.toBe("");
+
+            expect(changedFirstEntry).toBeDefined();
+            expect(changedFirstEntry).not.toBe("");
+
+            expect(initialFirstEntry === changedFirstEntry).toBe(false);
+
+            done();
+        });
+
+
+    });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
 
