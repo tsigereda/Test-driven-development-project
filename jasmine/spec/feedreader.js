@@ -63,14 +63,12 @@ $(function () {
             });
         });
 
-        it('load function does its work', function (done) {
+        it('load function does its work', function () {
 
             var entryElements = container.find('.entry');
-            expect(entryElements).toBeDefined();
             expect(entryElements.length).not.toBe(0);
-            done();
-        });
 
+        });
 
     });
 
@@ -81,20 +79,22 @@ $(function () {
 
         beforeEach(function (done) {
             loadFeed(0, function () {
-                
+
                 initialFirstEntry = $('.entry').first().text();
 
+                loadFeed(1, function () {
+                    changedFirstEntry = $('.entry').first().text();
+                    done();
+                });
+
             });
 
-            loadFeed(1, function () {
-                changedFirstEntry = $('.entry').first().text();
-                done();
-            });
+
         });
 
 
 
-        it('loadfeed updates content works', function (done) {
+        it('loadfeed updates content works', function () {
 
             expect(initialFirstEntry).toBeDefined();
             expect(initialFirstEntry).not.toBe("");
@@ -104,16 +104,9 @@ $(function () {
 
             expect(initialFirstEntry === changedFirstEntry).toBe(false);
 
-            done();
         });
 
 
     });
 
-    /* TODO: Write a new test suite named "New Feed Selection" */
-
-    /* TODO: Write a test that ensures when a new feed is loaded
-     * by the loadFeed function that the content actually changes.
-     * Remember, loadFeed() is asynchronous.
-     */
 }());
